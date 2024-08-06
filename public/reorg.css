@@ -1,0 +1,86 @@
+pdf-reorganizer {
+  --pdfro-viewport-width: 90vw;
+  --pdfro-viewport-height: 90vh;
+}
+
+:root {
+  --pdfro-main-color: #555;
+  --pdfro-white: #ffffff;
+  --pdfro-deleted-color: #777;
+  --pdfro-hover-color: #aaa;  /* #49d; */
+  --pdfro-selected-bg-color: #07d;
+  --pdfro-selected-color: var(--white);
+  --pdfro-split-before-border-color: #696;
+  --pdfro-split-before-color: #6b6;
+  --pdfro-dragged-color: #7cd;
+  --pdfro-loader: var(--selected-bg-color);
+  font-family: tahoma, verdana, arial;
+}
+
+html, body {
+  padding: 0;
+  margin:0;
+}
+
+body {
+  background-color: #ccc;
+}
+
+message-center {
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
+.announce {
+  display: block;
+  opacity: 1;
+  transition: opacity 1300ms 500ms, background-color 1300ms 0ms;
+  padding: 4pt;
+  margin: 4pt;
+  border-radius: 5px;
+  width: 200px;
+}
+
+.progress {
+  border: 1px solid rgb(23, 88, 103);
+  background-color: #2fb0cf;
+}
+
+.info {
+  border: 1px solid rgb(23, 88, 103);
+  background-color: #2fb0cf;
+}
+
+div.announce div {
+  display: block;
+}
+
+div.announce.progress progress {
+  display: block;
+  width: 100%;
+}
+
+.announce.done {
+  border: 1px solid #090;
+  background-color: #0c0;
+  opacity: 0;
+}
+
+pdf-drop {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+pdf-drop > div {
+  position: relative;
+  text-align: center;
+  min-height: 200px;
+  border: 2px dashed var(--pdfro-main-color);
+  margin: 5px;
+}
+
+pdf-drop > .dragin {
+  background-color: var(--pdfro-dragged-color);
+}

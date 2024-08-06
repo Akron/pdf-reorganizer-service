@@ -1,0 +1,19 @@
+{
+  "name": "pdf-reorganizer-service",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "watch": "vite build --watch",
+    "preview": "vite preview",
+    "test":"prove -lr t"
+  },
+  "devDependencies": {
+    "vite": "^5.3.3"
+  },
+  "dependencies": {
+    "pdf-reorganizer": "^0.1.0"
+  }
+}

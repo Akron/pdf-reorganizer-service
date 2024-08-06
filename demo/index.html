@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      message-center {
+        position: fixed;
+        top: 0;
+        right: 0;
+      }
+
+      .announce {
+        display: block;
+        opacity: 1;
+        transition: opacity 1300ms 500ms, background-color 1300ms 0ms;
+        padding: 4pt;
+        margin: 4pt;
+        border-radius: 5px;
+        width: 200px;
+      }
+      
+      .progress {
+        border: 1px solid #555;
+        background-color: #888;
+      }
+
+      .info {
+        border: 1px solid #090;
+        background-color: #0c0;
+      }
+      
+      .progress-announce div {
+        display: block;
+      }
+
+      .progress-announce progress {
+        display: block;
+        width: 100%;
+      }
+
+      
+
+      .progress-announce.done {
+        background-color: #fff;
+        opacity: 0;
+      }
+
+    </style>
+    <script type="module">
+import PDFDropper from '/src-ui/upload.js';
+    </script>
+  </head>
+  <body>
+    <pdf-drop>Drop here</pdf-drop>
+  </body>
+</html>
+
