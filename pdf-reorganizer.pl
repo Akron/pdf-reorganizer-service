@@ -41,9 +41,10 @@ post '/' => sub ($c) {
 
 # Start processing the file
 post '/edit' => sub ($c) {
-  warn $c->req->body;
 
-  my $obj = $c->req->json; #{src=>[],docs=>[[1,2,{p => 3, r => 90}],[{p => 2, r => 90},3,4]]};
+  # {src=>['myfile.pdf'],docs=>[[1,2,{p => 3, r => 90}],[{p => 2, r => 90},3,4]]};
+
+  my $obj = $c->req->json;
 
   my $docs = $obj->{docs};
 
@@ -63,13 +64,13 @@ post '/edit' => sub ($c) {
   my $src = PDF::API2->open($src_name);
 
   unless ($src) {
-    return $c->render(text => 'Unable to load ' . $src);
+    return $c->render(text => 'Unable to load ' . $src, status => 400);
   };
 
   # The passed doc needs to be an array
   if (ref $docs ne 'ARRAY') {
     $c->app->log->warn('Not an array in json object');
-    return $c->render(text => 'unable to process');
+    return $c->render(text => 'unable to process', status => 400);
   };
 
   my $i = 1;
@@ -93,18 +94,13 @@ post '/edit' => sub ($c) {
       else {
         $target->import_page($src, $page_nr) or next;
       };
-
-      # Add page to new document and potentially rotate
-      # if ($page_nr =~ m/^(\d+?)(?:\@(0|90|180|270))?(?:\#(.*?))?$/) {
-      #   my $page = $target->import_page($src, $1) or next;
-      #   $page->rotation($2) if $2;
-      # Ignore comment
-      # };
     };
 
     $target->save($output_folder . $base_name . ' (' . $i . ').pdf');
     $i++;
   };
+
+  # optionally delete file from tmp afterwards
 
   return $c->render(text => 'All processed');
 };
