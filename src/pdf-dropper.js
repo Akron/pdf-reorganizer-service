@@ -64,7 +64,7 @@ export default class PDFDropper extends HTMLElement {
 
     // Turn the file into a byte array
     fileReader.onload = function() {
-      instance.reorganizer.loadDocument(this.result);
+      instance.reorganizer.loadDocument(this.result, file.name);
 
       // Replace with file
       instance.dropDiv.style.display = "none";
@@ -162,7 +162,7 @@ export default class PDFDropper extends HTMLElement {
       proc.done();
       instance.allowUpload();
     };
-    ajax.open("POST","/edit/" + this.filename);
+    ajax.open("POST","/edit");
     ajax.setRequestHeader('Content-type', 'application/json; charset=UTF-8')
     ajax.send(JSON.stringify(ev.detail));
   }

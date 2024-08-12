@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use FindBin;
 
-require "$FindBin::Bin/../pdf-arranger.pl";
+require "$FindBin::Bin/../pdf-reorganizer.pl";
 
 my $t = Test::Mojo->new;
 
