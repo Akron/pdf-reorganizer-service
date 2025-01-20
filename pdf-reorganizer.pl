@@ -2,17 +2,20 @@
 use PDF::API2;
 use Mojolicious::Lite -signatures;
 use Mojo::Base -strict;
-use Mojo::File;
+use Mojo::File qw'path';
 
-our $VERSION = '0.0.2';
+our $VERSION = '0.0.3';
 
 app->types->type(mjs => 'text/javascript');
 
 unshift @{app->static->paths}, app->home->child('build');
 
-our $temp_pdf_folder = 'tmp/';
-our $output_folder = 'output/';
-
+plugin 'Config' => {
+  default => {
+    tmp => 'tmp',
+    output => 'output'
+  }
+};
 
 get '/' => sub ($c) {
   $c->reply->static('index.html');
@@ -31,11 +34,11 @@ post '/' => sub ($c) {
   my $filename = '';
   foreach (@{$req->uploads}) {
     $filename = $_->filename;
-    $_->move_to($temp_pdf_folder . $_->filename);
+    $_->move_to(path($c->config('tmp'), $_->filename));
   };
 
   # Return hash value for redirect, that will keep the filename and point to the file
-  $c->render(text => $c->url_for('edit', file => $filename));
+  $c->render(text => $c->url_for('edit')->query({file => $filename}));
 };
 
 
@@ -54,9 +57,13 @@ post '/edit' => sub ($c) {
   my $filename = '';
   if ($obj->{src} && ref($obj->{src}) eq 'ARRAY') {
     $filename = shift @{$obj->{src}};
+  }
+  else {
+    $c->app->log->warn('Not an array for sources');
+    return $c->render(text => 'unable to process', status => 400);
   };
 
-  my $src_name = $temp_pdf_folder . $filename;
+  my $src_name = path($c->config->{'tmp'}, $filename);
 
   my $base_name = Mojo::File->new($src_name)->basename('.pdf');
 
@@ -96,7 +103,7 @@ post '/edit' => sub ($c) {
       };
     };
 
-    $target->save($output_folder . $base_name . ' (' . $i . ').pdf');
+    $target->save(path($c->config->{'output'}, $base_name . ' (' . $i . ').pdf'));
     $i++;
   };
 
