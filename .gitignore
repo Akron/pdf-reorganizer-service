@@ -4,6 +4,7 @@ node_modules
 sandbox
 output
 tmp
+todo.txt
 \#*\#
 *.tar.gz
 *~
