@@ -34,7 +34,8 @@ post '/' => sub ($c) {
   my $filename = '';
   foreach (@{$req->uploads}) {
     $filename = $_->filename;
-    $_->move_to(path($c->config('tmp'), $_->filename));
+    my $fpath = path($c->config('tmp'), $_->filename);
+    $_->move_to($fpath);
   };
 
   # Return hash value for redirect, that will keep the filename and point to the file
@@ -68,7 +69,7 @@ post '/edit' => sub ($c) {
   my $base_name = Mojo::File->new($src_name)->basename('.pdf');
 
   # Load PDF file
-  my $src = PDF::API2->open($src_name);
+  my $src = PDF::API2->open("$src_name");
 
   unless ($src) {
     return $c->render(text => 'Unable to load ' . $src, status => 400);
@@ -103,7 +104,7 @@ post '/edit' => sub ($c) {
       };
     };
 
-    $target->save(path($c->config->{'output'}, $base_name . ' (' . $i . ').pdf'));
+    $target->save('' . path($c->config->{'output'}, $base_name . ' (' . $i . ').pdf'));
     $i++;
   };
 
