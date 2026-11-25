@@ -3,7 +3,7 @@
 ![pdf-reorganizer](demo/pdf-reorganizer.png)
 
 pdf-reorganizer-service is a simple web service using
-[pdf-reorganizer](https://github.com/pdfarranger/pdfarranger)
+[pdf-reorganizer](https://github.com/Akron/pdf-reorganizer)
 to help rearrange and split PDFs. It is merely a demo
 for that library and not meant to be used as a standalone
 application.
